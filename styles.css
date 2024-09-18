@@ -1,0 +1,217 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Basic styles for the body */
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #e0f7fa; /* Light cyan background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Container for the entire page */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #ffffff; /* White background for the container */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Header styles */
+header {
+    background: linear-gradient(45deg, #00796b, #004d40); /* Darker green gradient */
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    border-radius: 0 0 20px 20px; /* Rounded bottom corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 3em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for better readability */
+}
+
+/* Main content styles */
+main {
+    background: #ffffff; /* White background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Silk image container */
+.silk-container {
+    margin: 20px 0;
+    text-align: center; /* Center-aligns the contents */
+}
+
+#silkImage {
+    max-width: 300%; /* Ensure image fits within the container */
+    max-height: 200px; /* Limit the height of the image */
+    width: auto; /* Allow the width to adjust based on the height */
+    height: auto; /* Allow the height to adjust based on the width */
+    object-fit: contain; /* Preserve aspect ratio */
+    border: 4px solid #00796b; /* Dark green border */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin: 0 auto; /* Center-align the image */
+    display: block; /* Ensure it behaves as a block element for centering */
+}   
+
+/* Button styles */
+button {
+    background: #00796b; /* Green background */
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    margin: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+    background: #004d40; /* Darker green on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+/* Input styles */
+input[type="text"] {
+    padding: 15px;
+    border: 2px solid #00796b; /* Dark green border */
+    border-radius: 8px;
+    font-size: 1.2em;
+    width: calc(100% - 20px);
+    max-width: 500px;
+    margin: 10px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus {
+    border-color: #004d40; /* Darker green border on focus */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Guess section styles */
+.guess-section {
+    margin: 30px 0;
+}
+
+/* Result text styles */
+#result {
+    font-size: 1.5em;
+    margin-top: 20px;
+    color: #d32f2f; /* Red for error or feedback */
+    font-weight: bold;
+}
+
+/* Streak counter styles */
+#streakCounter {
+    font-size: 1.5em;
+    margin-top: 10px;
+    color: #00796b; /* Green for streak counter */
+    font-weight: bold;
+}
+
+/* Footer styles */
+footer {
+    background: #004d40; /* Darker green background */
+    color: #fff;
+    padding: 15px 0;
+    text-align: center;
+    border-radius: 20px 20px 0 0; /* Rounded top corners */
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    #silkImage {
+        width: 90%;
+    }
+
+    input[type="text"] {
+        width: calc(100% - 20px); /* Adjust for padding */
+    }
+}
+
+/* Additional styles for polished appearance */
+header {
+    background: linear-gradient(45deg, #00796b, #004d40); /* Gradient header */
+}
+
+footer {
+    background: linear-gradient(45deg, #004d40, #00796b); /* Gradient footer */
+}
+
+button {
+    font-weight: bold;
+}
+
+#result {
+    font-weight: bold;
+    color: #f57c00; /* Orange for feedback */
+}
+
+/* Adding transition effects */
+button, input[type="text"] {
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #004d40;
+}
+
+input[type="text"]:focus {
+    border-color: #004d40;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Additional spacing and alignment */
+.container {
+    padding: 40px;
+}
+
+header h1 {
+    font-size: 3em;
+}
+
+main {
+    padding: 40px;
+}
+
+.silk-container {
+    margin: 30px 0;
+}
+
+.guess-section {
+    margin: 30px 0;
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2em;
+    }
+    main {
+        padding: 20px;
+    }
+}
