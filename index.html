@@ -247,67 +247,94 @@
 
     <script>
         const colorCodes = [
-    '58382', '88494', '4921', '6290', '74743', '80802', '76067',
-    '9422', '3008', '41642', '13386', '10811'
-];
-
+            '58382', '88494', '4921', '6290', '74743', '80802', '76067',
+            '9422', '3008', '41642', '13386', '10811'
+        ];
+    
         let usedCodes = [];
         let currentHorses = [];
         let correctStreak = 0;
-
+    
+        // Function to fetch horse names by color code
         async function fetchHorses(colorCode) {
-            const targetUrl = `https://racing.racingnsw.com.au/InteractiveForm/JockeySilkDetails.aspx?ColorID=${colorCode}`;
-            const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
-    
-            const response = await fetch(proxyUrl);
-            const text = await response.text();
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(text, 'text/html');
-            const horseElements = doc.querySelectorAll('h2.first');
-            return Array.from(horseElements).map(horse => horse.textContent.replace(/\s*\(.*?\)\s*/g, '').trim().toLowerCase());
-        }
+    const targetUrl = `https://racing.racingnsw.com.au/InteractiveForm/JockeySilkDetails.aspx?ColorID=${colorCode}`;
+    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
 
+    const response = await fetch(proxyUrl);
+    const text = await response.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(text, 'text/html');
+
+    // Find all <td> elements containing horse names
+    const horseElements = doc.querySelectorAll('td');
+    const horses = Array.from(horseElements)
+        .map(td => td.textContent.replace(/\s*\(.*?\)\s*/g, '').trim().toUpperCase()) // Clean up the names
+        .filter(horse => horse !== ""); // Filter out empty values
+
+    console.log(`Correct horses for color code ${colorCode}:`, horses); // Log the correct horses
+    return horses;
+}
+
+    
+        
+        // Function to generate a random silk image
         async function generateRandomSilk() {
-            if (usedCodes.length === colorCodes.length) {
-                alert("All color codes have been used!");
-                return;
-            }
+    if (usedCodes.length === colorCodes.length) {
+        alert("All color codes have been used!");
+        return;
+    }
 
-            let randomIndex;
-            do {
-                randomIndex = Math.floor(Math.random() * colorCodes.length);
-            } while (usedCodes.includes(randomIndex));
-    
-            const colorCode = colorCodes[randomIndex];
-            usedCodes.push(randomIndex);
-            currentHorses = await fetchHorses(colorCode);
-    
-            const silkImage = document.getElementById('silkImage');
-            silkImage.src = `https://www.racingaustralia.horse/JockeySilks/${colorCode}.png`;
-            silkImage.style.display = 'block';
-            document.getElementById('loadingSpinner').style.display = 'none';
-        }
+    let randomIndex;
+    do {
+        randomIndex = Math.floor(Math.random() * colorCodes.length);
+    } while (usedCodes.includes(randomIndex));
 
+    const colorCode = colorCodes[randomIndex];
+    usedCodes.push(randomIndex);
+    currentHorses = await fetchHorses(colorCode);
+
+    // Log the correct horses to the console
+    console.log(`Correct horses for color code ${colorCode}:`, currentHorses);
+
+    const silkImage = document.getElementById('silkImage');
+    silkImage.src = `https://www.racingaustralia.horse/JockeySilks/${colorCode}.png`;
+    silkImage.style.display = 'block';
+    document.getElementById('loadingSpinner').style.display = 'none';
+}
+
+    
+        // Event listener for silk generation
         document.getElementById('generateButton').addEventListener('click', async () => {
             document.getElementById('loadingSpinner').style.display = 'block';
             await generateRandomSilk();
         });
-
+    
+        // Form submission for guessing
         document.getElementById('guessForm').addEventListener('submit', (event) => {
             event.preventDefault();
-            const guess = document.getElementById('guessInput').value.trim().toLowerCase();
+            const guess = document.getElementById('guessInput').value.trim().toUpperCase(); // Ensure guess is trimmed and uppercase
+            let resultMessage;
+    
             if (currentHorses.includes(guess)) {
                 correctStreak++;
                 document.getElementById('result').textContent = "Correct!";
                 document.getElementById('result').className = "correct";
+                resultMessage = "Correct!";
             } else {
                 correctStreak = 0;
                 document.getElementById('result').textContent = "Incorrect!";
                 document.getElementById('result').className = "incorrect";
+                resultMessage = "Incorrect!";
             }
+    
             document.getElementById('streakCounter').textContent = `Streak: ${correctStreak}`;
             document.getElementById('guessInput').value = '';
+    
+            // Log the guess and result to the console
+            console.log(`You guessed: "${guess}". Result: ${resultMessage}`);
         });
     </script>
+    
+    
 </body>
 </html>
