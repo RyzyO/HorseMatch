@@ -283,7 +283,7 @@
             currentHorses = await fetchHorses(colorCode);
     
             const silkImage = document.getElementById('silkImage');
-            silkImage.src = `https://www.racingaustralia.horse/JockeySilks/${colorCode}`;
+            silkImage.src = `https://www.racingaustralia.horse/JockeySilks/${colorCode}.png`;
             silkImage.style.display = 'block';
             document.getElementById('loadingSpinner').style.display = 'none';
         }
