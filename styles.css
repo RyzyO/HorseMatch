@@ -28,48 +28,15 @@ body {
     text-align: center;
 }
 
-/* Header styles */
-header {
-    background: linear-gradient(45deg, #00796b, #004d40); /* Darker green gradient */
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
-    border-radius: 0 0 20px 20px; /* Rounded bottom corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-header h1 {
-    margin: 0;
-    font-size: 3em;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for better readability */
-}
-
-/* Main content styles */
-main {
-    background: #ffffff; /* White background */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-}
-
-/* Silk image container */
-.silk-container {
-    margin: 20px 0;
-    text-align: center; /* Center-aligns the contents */
-}
-
+/* Silk image styles */
 #silkImage {
-    max-width: 300%; /* Ensure image fits within the container */
+    max-width: 100%; /* Ensure image fits within the container */
     max-height: 200px; /* Limit the height of the image */
-    width: auto; /* Allow the width to adjust based on the height */
-    height: auto; /* Allow the height to adjust based on the width */
     object-fit: contain; /* Preserve aspect ratio */
     border: 4px solid #00796b; /* Dark green border */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    margin: 0 auto; /* Center-align the image */
-    display: block; /* Ensure it behaves as a block element for centering */
+    margin: 20px 0; /* Center-align the image */
 }   
 
 /* Button styles */
@@ -108,11 +75,6 @@ input[type="text"]:focus {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Guess section styles */
-.guess-section {
-    margin: 30px 0;
-}
-
 /* Result text styles */
 #result {
     font-size: 1.5em;
@@ -129,16 +91,6 @@ input[type="text"]:focus {
     font-weight: bold;
 }
 
-/* Footer styles */
-footer {
-    background: #004d40; /* Darker green background */
-    color: #fff;
-    padding: 15px 0;
-    text-align: center;
-    border-radius: 20px 20px 0 0; /* Rounded top corners */
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .container {
@@ -151,67 +103,5 @@ footer {
 
     input[type="text"] {
         width: calc(100% - 20px); /* Adjust for padding */
-    }
-}
-
-/* Additional styles for polished appearance */
-header {
-    background: linear-gradient(45deg, #00796b, #004d40); /* Gradient header */
-}
-
-footer {
-    background: linear-gradient(45deg, #004d40, #00796b); /* Gradient footer */
-}
-
-button {
-    font-weight: bold;
-}
-
-#result {
-    font-weight: bold;
-    color: #f57c00; /* Orange for feedback */
-}
-
-/* Adding transition effects */
-button, input[type="text"] {
-    transition: all 0.3s ease;
-}
-
-button:hover {
-    background-color: #004d40;
-}
-
-input[type="text"]:focus {
-    border-color: #004d40;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-}
-
-/* Additional spacing and alignment */
-.container {
-    padding: 40px;
-}
-
-header h1 {
-    font-size: 3em;
-}
-
-main {
-    padding: 40px;
-}
-
-.silk-container {
-    margin: 30px 0;
-}
-
-.guess-section {
-    margin: 30px 0;
-}
-
-@media (max-width: 768px) {
-    header h1 {
-        font-size: 2em;
-    }
-    main {
-        padding: 20px;
     }
 }
