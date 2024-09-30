@@ -3,27 +3,311 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Silk Guessing Demo</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <title>Jockey Silks Guessing Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for Theming */
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #0056b3;
+            --success-color: green;
+            --error-color: red;
+            --background-gradient: linear-gradient(135deg, #e0eafc, #cfdef3);
+        }
+
+        /* Body Styling with Gradients and Fluid Typography */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--background-gradient);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: calc(1rem + 0.2vw); /* Fluid Typography */
+        }
+
+        /* High-contrast Mode for Accessibility */
+        @media (prefers-contrast: high) {
+            body {
+                background: black;
+                color: white;
+            }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 0.5s ease-out;
+        }
+
+        /* Button Enhancements with Ripple and Hover Effects */
+        #generateButton, #guessForm button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+        }
+
+        #generateButton:hover, #guessForm button:hover {
+            background: var(--secondary-color);
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Ripple effect */
+        #generateButton::after, #guessForm button::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.5s;
+            border-radius: 50%;
+        }
+
+        #generateButton:active::after, #guessForm button:active::after {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Floating Labels for Input Field */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            position: relative;
+            max-width: 300px;
+            width: 100%;
+        }
+
+        input[type="text"] {
+            padding: 15px 10px 10px;
+            font-size: 1rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            width: 100%;
+            position: relative;
+            background: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+
+        input[type="text"]::placeholder {
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        input[type="text"]:focus::placeholder {
+            opacity: 0.7;
+        }
+
+        /* Animated Result Feedback */
+        #result {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .correct {
+            color: var(--success-color);
+            transform: scale(1.2);
+        }
+
+        .incorrect {
+            color: var(--error-color);
+            transform: scale(0.9);
+        }
+
+        /* Enhanced Streak Counter */
+        #streakCounter {
+            margin-top: 10px;
+            font-size: 1.4rem;
+            animation: pulse 1s ease infinite alternate;
+        }
+
+        @keyframes pulse {
+            from {
+                transform: scale(1);
+                color: #333;
+            }
+            to {
+                transform: scale(1.1);
+                color: var(--primary-color);
+            }
+        }
+
+        /* Spinner with Custom Design */
+        .spinner {
+            display: none;
+            border: 5px solid rgba(243, 243, 243, 0.3);
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-top: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Loading Screen with Horse Running Animation */
+        #loadingScreen {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: 9999;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            #generateButton, #guessForm button {
+                width: 100%;
+            }
+
+            input[type="text"] {
+                width: 100%;
+            }
+
+            #streakCounter {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Additional Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color);
+            border-radius: 20px;
+            border: 3px solid #f1f1f1;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Silks Guessing Demo</h1>
-        <p id="streakCounter">Streak: 0</p> <!-- Counter display -->
-        <img id="silkImage" src="" alt="Jockey Silk" style="display: none;">
-        
-        <form id="guessForm">
-            <input type="text" id="guessInput" placeholder="Enter your guess" required>
-            <button type="submit">Submit Guess</button>
-        </form>
+    <h1>Jockey Silks Guessing Game</h1>
+    <button id="generateButton">Generate Silk</button>
+    <img id="silkImage" alt="Jockey Silk Image" style="display:none;">
+    <div class="spinner" id="loadingSpinner"></div>
+    <form id="guessForm">
+        <input type="text" id="guessInput" placeholder="Enter horse name" required>
+        <button type="submit">Guess</button>
+    </form>
+    <div id="result"></div>
+    <div id="streakCounter">Streak: 0</div>
 
-        <button id="generateButton">Next Silk</button> <!-- Added button for generating new silk -->
-        <button id="restartButton">Restart</button>
+    <script>
+        const colorCodes = [
+            '6920', '76067', '96109', '87421', '73244', '76775', '1362',
+            '1416', '98910', '9422', '80802', '97135', '11647', '10690',
+            '36541', '89120', '43939', '1628', '94742'
+        ];
+        let usedCodes = [];
+        let currentHorses = [];
+        let correctStreak = 0;
 
-        <p id="result"></p>
-       
-    </div>
+        async function fetchHorses(colorCode) {
+            const targetUrl = `https://racing.racingnsw.com.au/InteractiveForm/JockeySilkDetails.aspx?ColorID=${colorCode}`;
+            const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
+    
+            const response = await fetch(proxyUrl);
+            const text = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(text, 'text/html');
+            const horseElements = doc.querySelectorAll('h2.first');
+            return Array.from(horseElements).map(horse => horse.textContent.replace(/\s*\(.*?\)\s*/g, '').trim().toLowerCase());
+        }
 
-    <script src="script.js"></script>
+        async function generateRandomSilk() {
+            if (usedCodes.length === colorCodes.length) {
+                alert("All color codes have been used!");
+                return;
+            }
+
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * colorCodes.length);
+            } while (usedCodes.includes(randomIndex));
+    
+            const colorCode = colorCodes[randomIndex];
+            usedCodes.push(randomIndex);
+            currentHorses = await fetchHorses(colorCode);
+    
+            const silkImage = document.getElementById('silkImage');
+            silkImage.src = `https://www.racingaustralia.horse/JockeySilks/${colorCode}`;
+            silkImage.style.display = 'block';
+            document.getElementById('loadingSpinner').style.display = 'none';
+        }
+
+        document.getElementById('generateButton').addEventListener('click', async () => {
+            document.getElementById('loadingSpinner').style.display = 'block';
+            await generateRandomSilk();
+        });
+
+        document.getElementById('guessForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const guess = document.getElementById('guessInput').value.trim().toLowerCase();
+            if (currentHorses.includes(guess)) {
+                correctStreak++;
+                document.getElementById('result').textContent = "Correct!";
+                document.getElementById('result').className = "correct";
+            } else {
+                correctStreak = 0;
+                document.getElementById('result').textContent = "Incorrect!";
+                document.getElementById('result').className = "incorrect";
+            }
+            document.getElementById('streakCounter').textContent = `Streak: ${correctStreak}`;
+            document.getElementById('guessInput').value = '';
+        });
+    </script>
 </body>
 </html>
